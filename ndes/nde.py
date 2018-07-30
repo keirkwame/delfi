@@ -163,7 +163,7 @@ class DelfiMixtureDensityNetwork():
 
         # Train the network on these initial simulations
         history = self.mdn.fit(self.x_train, self.y_train,
-                    batch_size=batch_size, epochs=epochs, verbose=1, validation_split=validation_split, callbacks=[keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=patience, verbose=0, mode='auto')])
+                    batch_size=int(self.n_sims/8), epochs=epochs, verbose=1, validation_split=validation_split, callbacks=[keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=patience, verbose=0, mode='auto')])
                     
         # Update the loss and validation loss
         self.loss = history.history['loss']
@@ -209,7 +209,7 @@ class DelfiMixtureDensityNetwork():
     
             # Train the network on these initial simulations
             history = self.mdn.fit(self.x_train, self.y_train,
-                   batch_size=batch_size, epochs=epochs, verbose=1, validation_split=validation_split, callbacks=[keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=patience, verbose=0, mode='auto')])
+                   batch_size=int(self.n_sims/8), epochs=epochs, verbose=1, validation_split=validation_split, callbacks=[keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=patience, verbose=0, mode='auto')])
                    
             # Update the loss and validation loss
             self.loss = np.concatenate([self.loss, history.history['loss']])

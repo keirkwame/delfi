@@ -1,6 +1,27 @@
 import numpy as np
 import scipy.integrate as integrate
 from .moped import *
+from scipy.stats import multivariate_normal
+
+def flat_prior(theta, prior_args):
+    
+    lower = prior_args[0]
+    upper = prior_args[1]
+    
+    # Test each parameter against prior limits
+    for a in range(0, len(theta)):
+        
+        if theta[a] > upper[a] or theta[a] < lower[a]:
+            return 0
+        
+    return np.prod(upper-lower)
+
+def gaussian_prior_draw(prior_args):
+    
+    mean = prior_args[0]
+    C = prior_args[1]
+    return multivariate_normal.rvs(mean=mean, cov=C)
+
 
 def truncated_gaussian_prior_draw(prior_args):
     
@@ -66,7 +87,7 @@ def simulation_seeded(theta, seed, sim_args):
     
     # Pull out data
     auxiliary_data = sim_args[0]
-    jla_cmats = L
+    L = sim_args[1]
     
     # Signal
     mb = apparent_magnitude(theta, auxiliary_data)
